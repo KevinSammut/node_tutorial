@@ -15,9 +15,21 @@ rl.question("What is you name? ", (answer) => {
   rl.prompt();
 
   rl.on('line', (saying) =>  {
-    rl.setPrompt(`What else would ${realPerson.name} say? ('exit' to leave) `);
-    rl.prompt();
-    //rl.close();
+
+    if (saying.toLowerCase().trim() === 'exit') {
+        rl.close();
+    } else {
+        realPerson.sayings.push(saying.trim());
+        rl.setPrompt(`What else would ${realPerson.name} say? ('exit' to leave) `);
+        rl.prompt();
+    }
+
+
   });
 
+});
+
+rl.on('close', () => {
+    console.log("%s is a real person that says %j", realPerson.name, realPerson.sayings);
+    process.exit();
 });
